@@ -12,7 +12,6 @@
 	},
 	"require": {
 		"php": ">=5.2.4",
-		"zendframework/zendframework": "^2.5"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
