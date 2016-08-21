@@ -34,24 +34,27 @@ class cart extends CI_Controller {
 		if(!empty($id_cust)){
 			$this->cart->destroy();
 			$checkCart = $this->carts->checkCart($id_cust);
-			$details = $this->carts->getDetailCarts($checkCart->id);
-			foreach ($details as $value) {
-				$cart_insert = array(
-				    'id'      => $value->product_id,
-				    'qty'     => $value->quantity,
-				    'price'   => $value->price,
-				    'name'    => $value->product_name,
-				    'size'    => $value->size.'-'.$value->size_name,
-				    'img'	  => $value->image
-				    );
-				$this->cart->insert($cart_insert);
+			if($checkCart){
+				$details = $this->carts->getDetailCarts($checkCart->id);
+
+				foreach ($details as $value) {
+					$cart_insert = array(
+					    'id'      => $value->product_id,
+					    'qty'     => $value->quantity,
+					    'price'   => $value->price,
+					    'name'    => $value->product_name,
+					    'size'    => $value->size.'-'.$value->size_name,
+					    'img'	  => $value->image
+					    );
+					$this->cart->insert($cart_insert);
+				}
 			}
 		}
 		$_session=$this->session->userdata('ctoken');
 		$data = ['category' => $this->category->getCategory(),
-				 'title' => 'bag',
-				 'cart' =>$this->cart->contents(),
-				 'total' => $this->cart->format_number($this->cart->total())
+				 'title'    => 'bag',
+				 'cart'     =>$this->cart->contents(),
+				 'total'    => $this->cart->format_number($this->cart->total())
 				];
 		
 		$this->_template($this->load->view('shopping-cart',$data,true));

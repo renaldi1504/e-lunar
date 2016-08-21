@@ -27,4 +27,12 @@ class customer extends CI_Model {
 			return false;	
 		}
 	}
+	function getAddress($id)
+	{
+		$this->db->select('a.*,b.price');
+		$this->db->from('addresses a');
+		$this->db->join('carrier_prices b','a.area_id = b.destination_area_id');
+		$this->db->where('a.customer_id',$id);
+		return $this->db->get()->row();
+	}
 }

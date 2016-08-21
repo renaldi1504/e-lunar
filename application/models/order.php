@@ -44,4 +44,25 @@ class order extends CI_Model {
 		$this->db->where('product_id',$product_id);
 		return $this->db->get()->row();
 	}
+	function getOrderbyId($id)
+	{
+		$this->db->select('total_products,total_paid,total_shipping');
+		$this->db->from('orders');
+		$this->db->where('id',$id);
+		return $this->db->get();
+	}
+	function getWeightDetailsbyOrderId($id)
+	{
+		$this->db->select('sum(product_weight) as weight');
+		$this->db->from('order_details');
+		$this->db->where('order_id',$id);
+		return $this->db->get()->row();
+	}
+	function getAreaPrice($id)
+	{
+		$this->db->select('*');
+		$this->db->from('carrier_prices');
+		$this->db->where('destination_area_id',$id);
+		return $this->db->get()->row();
+	}
 }
